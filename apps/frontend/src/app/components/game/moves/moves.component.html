@@ -1,0 +1,93 @@
+<div tuiCardLarge="compact" tuiSurface="outline-grayscale">
+  <header tuiHeader>
+    <h2 tuiTitle>Последний ход</h2>
+  </header>
+
+  <tui-notification *ngIf="!lastMove">
+    Ни один игрок еще не ходил
+  </tui-notification>
+
+  <div *ngIf="lastMove">
+    <div>
+      <strong>Игрок: </strong> {{ lastMove.player.username }}
+    </div>
+    <div>
+      <strong>Направление: </strong> {{ lastMove.from }} -> {{ lastMove.to }}
+    </div>
+    <div>
+      <strong>Клетка: </strong> {{ lastMove.cellInfo.title }}
+    </div>
+  </div>
+
+  <div *ngIf="showDiceButtons" style="display: flex; justify-content: space-around; height: 1rem">
+    <a
+      *ngFor="let i of [1,2,3,4,5,6]" tuiLink (click)="rollDice(i)"
+      style="border: 1px solid #000; padding: 5px; border-radius: 5px; width: 1rem; height: 1rem; text-align: center;"
+    >
+      {{ i }}
+    </a>
+  </div>
+
+  <footer *ngIf="lastMove" class="text-center">
+    <button
+      tuiButton
+      appearance="outline-grayscale"
+      size="s"
+      iconStart="@tui.footprints"
+      (click)="showMovesDialog()"
+      [style.width.%]="100"
+    >
+      Посмотреть все ходы
+    </button>
+  </footer>
+</div>
+
+<ng-template
+  [tuiDialogOptions]="{size: 'fullscreen', closeable: true, dismissible: true, label: 'Все передвижения'}"
+  [(tuiDialog)]="moveDialogShow"
+  class="moves-dialog"
+>
+  <tui-notification *ngIf="!lastMove">
+    Ни один игрок еще не ходил
+  </tui-notification>
+
+  <div *ngFor="let move of moves" class="moves-dialog__item">
+    <div class="moves-dialog__user">
+      <p><strong>Игрок:</strong> {{ move.player.username }}</p>
+      <p>
+        <tui-badge
+          *ngIf="move.type === MoveType.DICE"
+          appearance="positive"
+          iconStart="@tui.box"
+          size="l"
+        >
+          {{ moveTypeDescription(move.type) }}
+        </tui-badge>
+
+        <tui-badge
+          *ngIf="move.type === MoveType.MANUAL"
+          appearance="negative"
+          iconStart="@tui.users"
+          size="l"
+        >
+          {{ moveTypeDescription(move.type) }}
+        </tui-badge>
+
+        <tui-badge
+          *ngIf="move.type === MoveType.AUTO"
+          appearance="warning"
+          iconStart="@tui.shuffle"
+          size="l"
+        >
+          {{ moveTypeDescription(move.type) }}
+        </tui-badge>
+      </p>
+      <p><strong>Переход:</strong>{{ move.from }} -> {{ move.to }}</p>
+    </div>
+    <div class="moves-dialog__move">
+      <h2 class="text-center">{{ move.cellInfo.title }}</h2>
+      <p>{{ move.cellInfo.description }}</p>
+    </div>
+    <hr>
+  </div>
+</ng-template>

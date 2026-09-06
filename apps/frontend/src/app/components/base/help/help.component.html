@@ -1,0 +1,99 @@
+<ng-container>
+  <h1 class="text-center">Помощь и обратная связь</h1>
+
+  <section class="help-accordion">
+    <div class="tui-space_bottom-2 text-right">
+      <a tuiLink iconEnd="@tui.circle-help" (click)="showDialog()">Не нашли нужной
+        информации</a>
+    </div>
+
+    <tui-accordion>
+      <tui-accordion-item [disableHover]="true">
+        <strong>Нет возможности создать игру</strong>
+        <ng-template tuiAccordionItemContent>
+          Для создания игры вы должны иметь личный кабинет игропрактика. Обычные пользователи не могут создавать игры.
+          <br>Для участие в игре необходимо попросить игропрактика направить вам пригласительную ссылку.
+          <br>Если он не зарегистрирован на площадке, можно поделиться с ним ссылкой =)
+        </ng-template>
+      </tui-accordion-item>
+      <tui-accordion-item [disableHover]="true">
+        <strong>Я игропрактик, хочу получить доступ к играм</strong>
+        <ng-template tuiAccordionItemContent>
+          Если Вы хотите проводить игры, пожалуйста, зарегистрируйтесь на платформе в качестве игропрактика
+          или свяжитесь с нами через <a tuiLink (click)="showDialog()">форму обратной связи</a> если уже создали
+          обычный личный кабинет
+        </ng-template>
+      </tui-accordion-item>
+    </tui-accordion>
+  </section>
+
+
+  <ng-template
+    [tuiDialogOptions]="{label: 'Обратная связь', size: 'm'}"
+    [(tuiDialog)]="feedbackDialogShow"
+  >
+    <tui-loader
+      [showLoader]="showFeedbackLoader"
+      [inheritColor]="true"
+      [size]="'xl'"
+    >
+      <form (submit)="onSubmit()" [formGroup]="feedbackForm" id="feedbackForm">
+        <div class="tui-form__row">
+          <tui-input
+            tuiHint="Email необходим для обратной связи с Вами для решения возникшего вопроса"
+            formControlName="email"
+          >
+            Email
+            <input tuiTextfieldLegacy />
+            <span class="tui-required"></span>
+          </tui-input>
+          <tui-error
+            [error]="[] | tuiFieldError | async"
+            formControlName="email"
+          ></tui-error>
+        </div>
+
+        <div class="tui-form__row">
+          <tui-select formControlName="subject">
+            Причина обращения
+            <input tuiTextfieldLegacy />
+            <span class="tui-required"></span>
+
+            <tui-data-list-wrapper
+              *tuiDataList
+              [items]="subjects"
+            ></tui-data-list-wrapper>
+          </tui-select>
+          <tui-error
+            [error]="[] | tuiFieldError | async"
+            formControlName="subject"
+          ></tui-error>
+        </div>
+
+        <div class="tui-form__row">
+          <tui-textarea
+            formControlName="text"
+            [expandable]="true"
+          >
+            Введите текст обращения
+            <span class="tui-required"></span>
+          </tui-textarea>
+          <tui-error
+            [error]="[] | tuiFieldError | async"
+            formControlName="text"
+          ></tui-error>
+        </div>
+
+        <div class="tui-form__row">
+          <button
+            appearance="primary"
+            tuiButton
+            type="submit"
+          >
+            Отправить
+          </button>
+        </div>
+      </form>
+    </tui-loader>
+  </ng-template>
+</ng-container>

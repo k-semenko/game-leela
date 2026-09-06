@@ -1,0 +1,82 @@
+<header>
+  <tui-tabs
+    [activeItemIndex]="activeTabIndex"
+    tuiTabs
+  >
+    <div class="header__logo" routerLink="/"></div>
+    <nav
+      *ngIf="!mediaHelper.isTablet()"
+    >
+      <button
+        *ngFor="let item of groups[0].items"
+        [disabled]="item.disabled"
+        routerLink="{{item.routerLink}}"
+        tuiTab
+      >
+        <tui-icon
+          *ngIf="item.icon !== ''"
+          class="tui-space_right-2"
+          icon="{{ item.icon }}">
+        </tui-icon>
+
+        {{ item.label }}
+      </button>
+      <button routerLink="{{ this.user ? '/profile' : '/auth' }}" tuiTab>
+        <tui-icon class="tui-space_right-2" icon="@tui.user-round"></tui-icon>
+        {{ this.user ? this.user.username! : 'Профиль' }}
+      </button>
+    </nav>
+    <div
+      *ngIf="mediaHelper.isTablet()"
+      tuiDropdownAlign="left"
+      [tuiDropdown]="content"
+      [(tuiDropdownOpen)]="dropdownMenuOpen"
+      [tuiDropdownDirection]="'bottom'"
+    >
+      <button
+        tuiIconButton
+        tuiHostedDropdownHost
+        iconStart="@tui.menu"
+        appearance="flat"
+        [style.color]="'var(--tui-text-secondary)'"
+      >
+        Menu
+      </button>
+    </div>
+    <ng-template #content>
+      <tui-data-list
+        role="menu"
+        class="dropdown-menu"
+      >
+        <tui-opt-group
+          *ngFor="let group of groups"
+          [label]="group.label"
+        >
+          <button
+            *ngFor="let item of group.items"
+            role="menuitemradio"
+            tuiOption
+            [routerLink]="item.routerLink"
+            [disabled]="item?.disabled === true"
+            (click)="onClickDropdownMenu()"
+          >
+            <tui-icon
+              class="tui-space_right-2"
+              icon="{{ item.icon }}"
+            ></tui-icon>
+            {{ item.label }}
+          </button>
+          <button
+            tuiOption
+            [routerLink]="'/profile'"
+            role="menuitemradio"
+            (click)="onClickDropdownMenu()"
+          >
+            <tui-icon class="tui-space_right-2" icon="@tui.user-round"></tui-icon>
+            {{ this.user ? this.user.username! : 'Профиль' }}
+          </button>
+        </tui-opt-group>
+      </tui-data-list>
+    </ng-template>
+  </tui-tabs>
+</header>

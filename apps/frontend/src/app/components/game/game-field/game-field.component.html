@@ -1,0 +1,183 @@
+<ng-container>
+  <div class="game-container">
+    <div class="game-container__info">
+      <div tuiCardLarge="compact" tuiSurface="outline-grayscale" class="game-container__info-game">
+        <header tuiHeader>
+          <div tuiTitle>
+            {{ gameData?.name }}
+            <div tuiSubtitle>
+              <strong>Владелец игры:</strong> {{ gameData?.user?.username }}
+            </div>
+          </div>
+        </header>
+
+        <section tuiCell>
+          <tui-badge *ngIf="gameData?.gameEnd" size="xl" appearance="negative" tuiStatus>Игра завершена</tui-badge>
+          <tui-badge *ngIf="!gameData?.gameEnd" size="xl" appearance="positive" tuiStatus>Игра активна</tui-badge>
+        </section>
+
+        <footer class="text-center">
+          <button
+            *ngIf="isGameOwner && !gameData?.gameEnd"
+            tuiButton
+            appearance="outline-grayscale"
+            [size]="'s'"
+            iconStart="@tui.share-2"
+            [style.width.%]="100"
+            (click)="shareGame()"
+          >
+            Поделиться
+          </button>
+        </footer>
+      </div>
+
+      <div tuiCardLarge="compact" tuiSurface="outline-grayscale" class="game-container__info-players">
+        <div tuiHeader>
+          <div tuiTitle>Игроки</div>
+        </div>
+
+        <section>
+          <div class="players">
+            <tui-notification *ngIf="gameData?.players?.length === 0">
+              Ни один игрок пока не присоединился к игре!
+            </tui-notification>
+            <div (click)="selectPlayerFromField($event)"
+                 *ngFor="let player of gameData?.players"
+                 [style]="!player.isActive && [51, 68].includes(player.position) ? 'text-decoration: line-through' : ''"
+                 class="players__item {{ selectedPlayer?.id === player.id ? 'selected' : '' }}"
+            >
+              <div tuiCell="s" [attr.data-user]="player.id">
+                <tui-badge [style.background]="player.color" size="m" />&nbsp;
+                {{ player.username }}&nbsp;[&nbsp;{{ player.position }}&nbsp;]
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <game-moves
+        [moves]="gameData?.moves ?? []"
+        [lastMove]="lastMove"
+        [cellsData]="cellsData"
+        (rollTheDice)="rollTheDice($event)"
+        class="game-container__info-moves"
+      ></game-moves>
+
+      <div tuiCardLarge="compact"
+           tuiSurface="outline-grayscale"
+           *ngIf="!gameData?.gameEnd && isGameOwner"
+           class="game-container__info-options"
+      >
+        <div tuiHeader>
+          <h2 tuiTitle>Опции</h2>
+        </div>
+
+        <section tuiCell>
+          <button
+            appearance="icon"
+            iconStart="@tui.footprints"
+            tuiLink
+            type="button"
+            [pseudo]="true"
+            (click)="configsTrigger(moveDialogTemplate, 'showDiceDialog')"
+          >
+            Показать окно с шагами
+          </button>
+        </section>
+      </div>
+    </div>
+
+    <ng-template #loaderTextTemplate>
+      <b *ngIf="!selectedPlayer">Ожидаем выбора игрока</b>
+
+      <div *ngIf="selectedPlayer && !isPlayerTurn">
+        <strong class="text-center">
+          Ожидаем окончания хода игрока<br />
+          <span tuiCell="s" style="gap: 0.3rem; justify-content: center">
+          <tui-badge [style.background]="selectedPlayer.color" size="s" />
+            {{ selectedPlayer.username }}
+          </span>
+        </strong>
+        <div class="moves tui-space_bottom-2 tui-space_top-2">
+          <strong
+            *ngFor="let item of playerMovesSequence"
+            class="moves__item"
+          >
+            {{ item }}
+          </strong>
+        </div>
+      </div>
+
+    </ng-template>
+
+    <div class="game-container__field">
+      <tui-loader
+        [inheritColor]="true"
+        [overlay]="true"
+        [showLoader]="((!isPlayerTurn && !isGameOwner) || showLoader) && !gameData?.gameEnd"
+        [size]="'xxl'"
+        [textContent]="loaderText === '' ? loaderTextTemplate : loaderText"
+        class="loader shadow"
+      >
+        <div [style.background-image]="gameData?.field?.url"
+             class="field {{ !gameData?.field?.interface ? 'no-interface' : '' }}">
+          <img
+            *ngIf="gameData?.field?.interface"
+            [src]="'assets/game-field/bg.svg' | tuiIcon"
+            class="field__svg"
+            alt="game field"
+          />
+
+          <div *ngFor="let item of gameField" class="field__row">
+            <div *ngFor="let cell of item"
+                 [attr.data-cell-id]="cell.number"
+                 (click)="setNextChipPosition(cell.number, null, true)"
+                 class="field__cell"
+            >
+              <span class='field__cell__number'>{{ cell.number }}</span>
+              <tui-avatar-stack direction="right" [attr.data-position]="cell.number">
+                <tui-avatar
+                  *ngFor="let player of getPlayers(cell.number)"
+                  size="xs"
+                  [round]="true"
+                  [attr.data-player-id]="player.id"
+                  [style.background]="player.color"
+                />
+              </tui-avatar-stack>
+
+              <!--              <span class='field__cell__title'>{{ cell.title }}</span>-->
+            </div>
+          </div>
+        </div>
+      </tui-loader>
+    </div>
+  </div>
+</ng-container>
+
+
+<ng-template
+  #moveDialogTemplate
+  [tuiDialogOptions]="{
+    size: 'l',
+    dismissible: false,
+    closeable: isGameOwner,
+  }"
+  [(tuiDialog)]="showDiceDialog"
+>
+  <app-dice
+    [lastMove]="lastMove"
+    [dice]="dice"
+    [selectedPlayer]="selectedPlayer"
+    [gameOwnerUser]="isGameOwner"
+    [currentUser]="user"
+    [playerMovesSequence]="playerMovesSequence"
+    [showMovesDialog]="showMovesDialog"
+    [state]="diceDialogState"
+    (rollDice)="rollTheDice()"
+    (makeMove)="makeMoveAction()"
+    (changePlayer)="changePlayer()"
+    (setNextChipPosition)="setNextChipPosition($event)"
+    (setMoveType)="setMoveType($event)"
+    (diceDialogState)="diceDialogStateEmit($event)"
+  />
+</ng-template>

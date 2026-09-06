@@ -1,0 +1,30 @@
+<ng-container>
+  <label
+    class="action-button {{ hideText ? 'hide-text' : '' }}"
+    [routerLink]="routerLink"
+    appearance="outline-grayscale"
+    tuiBlock
+  >
+    <button
+      tuiIconButton
+      [style.height.px]="size"
+      [style.width.px]="size"
+      [style.padding.px]="size+5"
+      [appearance]="type"
+      [iconStart]="icon"
+      class="action-button__icon"
+    >
+    </button>
+
+    <span
+      tuiTitle
+      class="action-button__content"
+      [style.margin-block.rem]="-0.5"
+    >
+      {{ header }}
+      <span tuiSubtitle *ngIf="description !== null"
+            [innerHTML]="description"
+      ></span>
+    </span>
+  </label>
+</ng-container>

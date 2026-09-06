@@ -1,0 +1,32 @@
+.moves-dialog
+  &__item
+    display: flex
+    flex-direction: column
+
+  &__user
+    display: grid
+    grid-template: "a b c"
+    gap: 1rem
+    justify-content: space-around
+    align-items: center
+
+    & p
+      margin: 0
+      text-align: center
+      white-space: nowrap
+
+      &:first-of-type
+        grid-area: a
+
+      &:nth-of-type(2)
+        grid-area: b
+
+      &:last-of-type
+        grid-area: c
+
+@media screen and (max-width: 767px)
+  .moves-dialog
+    &__user
+      display: grid
+      grid-template: "b b" "a c"
+      grid-template-rows: repeat(2, 1fr)

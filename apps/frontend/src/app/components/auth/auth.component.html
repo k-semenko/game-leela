@@ -1,0 +1,70 @@
+<ng-container>
+  <div class="form-container">
+    <tui-loader [showLoader]="showLoader" [inheritColor]="true" [size]="'xl'" [overlay]="true">
+      <h1 class="text-center">Вход в систему</h1>
+      <form
+        id="authForm"
+        (ngSubmit)="onSubmit()"
+        [formGroup]="authForm"
+        class="auth-form"
+      >
+
+        <div class="tui-form__row">
+          <tui-input formControlName="username">
+            Логин
+            <input
+              placeholder="Введите логин"
+              tuiTextfieldLegacy
+            />
+            <span class="tui-required"></span>
+          </tui-input>
+          <tui-error
+            [error]="[] | tuiFieldError | async"
+            formControlName="username"
+          ></tui-error>
+        </div>
+
+        <div class="tui-form__row">
+          <tui-input-password
+            formControlName="password"
+            tuiHintAppearance="onDark"
+            tuiHintContent
+            tuiHintDirection="right"
+          >
+            Пароль
+            <span class="tui-required"></span>
+          </tui-input-password>
+
+          <tui-error
+            [error]="[] | tuiFieldError | async"
+            formControlName="password"
+          ></tui-error>
+        </div>
+
+        <div class="tui-form__row text-right">
+          <a tuiLink routerLink="/change-password">Забыли пароль?</a>
+        </div>
+
+        <div class="tui-form__row form-buttons">
+          <button
+            [size]="'m'"
+            appearance="primary"
+            tuiButton
+            type="submit"
+          >
+            Войти
+          </button>
+          <button
+            [size]="'m'"
+            appearance="outline"
+            routerLink="/auth/signup"
+            tuiButton
+            type="button"
+          >
+            Регистрация
+          </button>
+        </div>
+      </form>
+    </tui-loader>
+  </div>
+</ng-container>

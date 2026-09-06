@@ -1,0 +1,15 @@
+\:host
+  display: flex
+
+.action-button
+  width: 100%
+  align-items: center
+  justify-content: flex-start
+
+  &__icon
+    border-radius: 50%
+
+@media screen and (max-width: 767px)
+  .action-button.hide-text
+    & .action-button__content
+      display: none

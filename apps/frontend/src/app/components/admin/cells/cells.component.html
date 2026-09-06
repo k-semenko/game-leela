@@ -1,0 +1,98 @@
+<ng-container>
+  <form
+    [formGroup]="cellsForm"
+    (ngSubmit)="onSubmit()"
+    class="tui-space_bottom-3"
+  >
+    <div tuiGroup [collapsed]="false">
+      <tui-input-number
+        formControlName="number"
+        tuiTableFilter="number"
+        [tuiGenericFilter]="filter"
+        class="tui-group__inherit-item"
+      >
+        Номер ячейки
+      </tui-input-number>
+      <tui-input
+        formControlName="title"
+        class="tui-group__inherit-item"
+      >
+        Название ячейки
+      </tui-input>
+      <tui-input
+        formControlName="id"
+        [readOnly]="true"
+        class="tui-group__inherit-item"
+      >
+        ID ячейки
+      </tui-input>
+    </div>
+    <div class="tui-form__row">
+      <tui-textarea
+        formControlName="description"
+        class="tui-space_top-4"
+        [expandable]="true"
+      >
+        Описание ячейки
+      </tui-textarea>
+    </div>
+    <div class="tui-form__row">
+      <button
+        tuiButton
+        appearance="primary"
+        [size]="'s'"
+      >
+        Сохранить
+      </button>
+
+      <button
+        tuiButton
+        appearance="outline"
+        type="reset"
+        [size]="'s'"
+        class="tui-space_left-2"
+      >
+        Очистить
+      </button>
+
+    </div>
+  </form>
+
+  <h2>Текущие значения ячеек</h2>
+  <tui-scrollbar class="cell-table-scroll">
+    <table
+      tuiTable
+      class="cells-table"
+    >
+      <thead>
+      <tr>
+        <th tuiTh>ID</th>
+        <th tuiTh>Номер</th>
+        <th tuiTh>Наименование</th>
+        <th tuiTh>Описание ячейки</th>
+        <th tuiTh>Действия</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let cell of cellsData | tuiTableFilters | async">
+        <td tuiTd> {{ cell.id }}</td>
+        <td tuiTd> {{ cell.number }}</td>
+        <td tuiTd> {{ cell.title }}</td>
+        <td tuiTd> {{ cell.description }}</td>
+        <td tuiTd>
+          <button
+            tuiIconButton
+            iconStart="@tui.pencil"
+            appearance="outline"
+            [size]="'s'"
+            type="button"
+            (click)="editCellData(cell)"
+          >
+            Редактировать
+          </button>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </tui-scrollbar>
+</ng-container>

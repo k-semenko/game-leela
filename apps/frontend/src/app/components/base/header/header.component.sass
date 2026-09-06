@@ -1,0 +1,52 @@
+header
+  position: fixed
+  top: 0
+  width: 100%
+  z-index: 1
+  border-bottom: 1px solid #e1e1e1
+  box-shadow: inset 1 -1px var(--tui-base-03)
+  background: var(--tui-background-base)
+
+  & .header__logo
+    cursor: pointer
+    width: 120px
+    height: 55px
+    background: url("/assets/logo_1.svg") no-repeat center
+    background-size: contain
+
+header > tui-tabs
+  display: flex
+  align-items: center
+  height: 60px
+  padding: 8px
+  max-width: 1200px
+  box-shadow: none
+  margin: auto
+
+  & nav
+    display: flex
+    align-items: center
+    justify-content: center
+    flex-grow: 1
+    gap: 1rem
+    padding: 0 1rem
+    margin-right: 120px
+
+    & > button
+      height: 2.5rem
+
+.dropdown-menu
+  & button
+    justify-content: flex-start
+
+@media screen and (max-width: 1024px)
+  header > tui-tabs
+    justify-content: space-between
+
+@media screen and (max-width: 500px)
+  header .header__logo
+    width: 100px
+    height: 35px
+
+  header > tui-tabs
+    height: auto

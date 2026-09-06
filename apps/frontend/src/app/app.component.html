@@ -1,0 +1,23 @@
+<tui-root [attr.tuiTheme]="null">
+  <app-header
+    (setBreadcrumbs)="setBreadcrumbs($event)"
+  ></app-header>
+  <div class="tui-container {{ mainPage ? 'main-page' : ''}}">
+    <tui-breadcrumbs
+      *ngIf="showBreadcrumbs"
+      class="tui-space_top-2 tui-space_bottom-2"
+      [size]="'m'"
+    >
+      <ng-container *ngFor="let item of items">
+        <a *tuiItem tuiLink [routerLink]="item.routerLink" >
+          {{ item.caption }}
+        </a>
+      </ng-container>
+    </tui-breadcrumbs>
+
+    <router-outlet
+      (activate)='onActivate()'
+    ></router-outlet>
+  </div>
+  <app-footer></app-footer>
+</tui-root>

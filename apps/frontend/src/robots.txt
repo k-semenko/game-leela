@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /game/*
+
+Disallow: /game/create
+Disallow: /api
+Disallow: /admin
+Disallow: /logout
+Disallow: /error
+Disallow: /?C=

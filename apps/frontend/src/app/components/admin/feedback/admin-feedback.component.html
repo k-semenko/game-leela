@@ -1,0 +1,117 @@
+<ng-container>
+  <tui-table-pagination
+    *ngIf="feedback?.length !== 0"
+    (paginationChange)="changePage($event)"
+    [page]="currentPage"
+    [size]="pageSize"
+    [total]="totalItems"
+  ></tui-table-pagination>
+
+  <tui-scrollbar>
+    <table
+      tuiTable
+      class="cells-table"
+    >
+      <thead>
+      <tr>
+        <th tuiTh [resizable]="true">ID</th>
+        <th tuiTh [resizable]="true">Тема обращения</th>
+        <th tuiTh [resizable]="true">Текст обращения</th>
+        <th tuiTh [resizable]="true">Коммент</th>
+        <th tuiTh [resizable]="true">Активный</th>
+        <th tuiTh [resizable]="true">Действия</th>
+      </tr>
+      </thead>
+      <tbody tuiTbody>
+      <tr *ngFor="let item of feedback">
+        <td tuiTd>{{ item.id }}</td>
+        <td tuiTd>{{ item.subject }}</td>
+        <td tuiTd>{{ item.text }}</td>
+        <td tuiTd>{{ item.comment }}</td>
+        <td tuiTd>{{ item.active }}</td>
+        <td tuiTd>
+          <button
+            tuiIconButton
+            appearance="icon"
+            iconStart="@tui.pencil"
+            type="button"
+            (click)="openDialog(item.id)"
+          >
+            Редактировать
+          </button>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </tui-scrollbar>
+</ng-container>
+
+<ng-template
+  [tuiDialogOptions]="{label: 'Обратная связь', size: 'fullscreen'}"
+  [(tuiDialog)]="showDialog"
+>
+  <div class="tui-row">
+    <div class="tui-col_6 tui-col_md-12 m-auto">
+      <form (ngSubmit)="onSubmit()" [formGroup]="feedbackForm">
+        <div class="tui-form__row">
+          <tui-input formControlName="id" [readOnly]="true">ID</tui-input>
+        </div>
+
+        <div class="tui-form__row">
+          <tui-textarea formControlName="comment">Комментарий</tui-textarea>
+        </div>
+
+        <div class="tui-form__row">
+          <span class="tui-space_right-2">Активен</span>
+          <input
+            tuiSwitch
+            type="checkbox"
+            formControlName="active"
+            [showIcons]="true"
+          />
+        </div>
+
+        <div class="tui-form__row buttons">
+          <button
+            appearance="primary"
+            tuiButton
+            [size]="'m'"
+            type="submit"
+          >
+            Сохранить
+          </button>
+        </div>
+      </form>
+    </div>
+    <div class="tui-col_6 tui-col_md-12 m-auto">
+      <h2>Данные</h2>
+      <p>
+        <strong>Email: </strong> {{ selectedFeedback?.email }}
+        <br>
+        <strong>Тема: </strong> {{ selectedFeedback?.subject }}
+        <br>
+        <strong>Текст: </strong>
+        <br>{{ selectedFeedback?.text }}
+      </p>
+
+      <h2>Ответ</h2>
+      <p>
+        <strong>Комментарий: </strong>
+        <br>
+        {{ selectedFeedback?.comment }}
+      </p>
+
+      <div *ngIf="selectedFeedback?.user">
+        <h2>Пользователь</h2>
+        <p>
+          <strong>ФИО: </strong>{{ selectedFeedback?.user?.firstName }}
+          {{ selectedFeedback?.user?.lastName }}
+          <br>
+          <strong>Email: </strong>{{ selectedFeedback?.user?.email }}
+          <br>
+          <strong>Роль: </strong> {{ selectedFeedback?.user?.role }}
+        </p>
+      </div>
+    </div>
+  </div>
+</ng-template>

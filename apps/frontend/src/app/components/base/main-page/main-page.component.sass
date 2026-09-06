@@ -1,0 +1,174 @@
+$linear-gradient: rgba(225, 225, 225, 0.3) 0%, white 30%, white 60%, rgba(225, 225, 225, 0) 95%
+
+@keyframes gradient
+  0%, 100%
+    background-position: right
+  50%
+    background-position: left
+
+@keyframes btn
+  0%, 100%
+    transform: translate(0, 0)
+  50%
+    transform: translate(0, 0.5rem)
+
+#main
+  display: flex
+  flex-direction: column
+  min-height: calc(100vh - 73px)
+  background-image: url("/assets/main-page/bg1.jpg")
+  background-repeat: no-repeat
+  background-position: center
+  background-size: cover
+  justify-content: center
+  gap: 1rem
+
+  & .main-content
+    display: flex
+    flex-direction: column
+    justify-content: center
+    align-items: center
+    background: linear-gradient(-65deg, $linear-gradient)
+    background-size: 125% 100%
+    animation: gradient 5s linear infinite
+    padding: 2rem 0
+    width: 100vw
+    gap: 1rem
+
+    &__row
+      display: flex
+      align-items: center
+      padding: 0 1rem
+      max-width: 1200px
+      gap: 3rem
+
+      &-logo
+        width: 400px
+        height: 420px
+
+    &__text
+      text-align: justify
+
+    &__header
+      display: flex
+      flex-direction: column
+      text-align: center
+      gap: 1rem
+
+      &-title
+        font-size: 3rem
+        font-weight: bold
+        line-height: 3rem
+
+      & > p
+        margin: 0
+
+    &__buttons
+      display: flex
+      justify-content: center
+      gap: 1rem
+
+    &__scroll-btn
+      tui-icon
+        animation: btn 1.5s infinite linear
+        cursor: pointer
+        background: white
+        border-radius: 50%
+
+.presentation
+  max-width: 1200px
+  margin: 0 auto
+
+  &__image
+    border-radius: 1rem
+    box-shadow: 0 0 1rem var(--tui-base-03)
+    margin: 0
+
+    & > img
+      width: 450px
+
+  &__row
+    display: flex
+    align-items: center
+    padding: 1rem
+    gap: 2rem
+
+    & > .presentation__video
+      box-shadow: 0 0 1rem var(--tui-base-03)
+      border-radius: 1rem
+      height: 300px
+
+  &__row-images
+    display: flex
+    justify-content: space-around
+    gap: 1rem
+    margin-bottom: 1rem
+
+    & > .image-item
+      width: 120px
+      height: 120px
+      background-size: cover
+      background-position: center center
+
+.button-group
+  display: flex
+  justify-content: center
+  align-items: center
+  gap: 1rem
+
+@media screen and (max-width: 1024px)
+  .presentation
+    &__image > img
+      width: 300px
+
+    &__video
+      width: 250px
+
+  .presentation__row-images
+    flex-wrap: wrap
+
+  #main .main-content
+    &__scroll-btn
+      display: none
+
+    &__image
+      margin: 0 auto
+
+    &__row
+      padding: 0 1.5rem
+      gap: 1rem
+      flex-direction: column
+
+      &-logo
+        width: 330px
+        height: 350px
+
+@media screen and (max-width: 767px)
+  .presentation
+    &__row
+      flex-direction: column
+
+      &:nth-of-type(2)
+        flex-direction: column-reverse
+
+    &__image > img
+      width: 90vw
+
+    &__video
+      width: 80vw
+
+  #main .main-content
+    background: rgba(255, 255, 255, 0.9)
+    gap: 0
+
+    &__header
+      gap: .25rem
+
+      & > h1
+        font-size: 2.5rem !important
+
+    &__text
+      text-align: justify
+
+    &__image
+      display: none

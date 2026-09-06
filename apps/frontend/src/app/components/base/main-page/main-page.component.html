@@ -1,0 +1,150 @@
+<ng-container>
+  <section id="main">
+    <div class="main-content">
+      <div class="main-content__header">
+        <p class="main-content__header-title">«Game Leela»</p>
+        <p>Игра «ЛИЛА»</p>
+      </div>
+
+      <div class="main-content__row">
+        <img
+          class="main-content__row-logo"
+          src="./assets/logo_1.svg"
+          alt="logo"
+        />
+
+        <div class="main-content__text">
+          <p>
+            <strong>ЛИЛА (Leela означает «жизнь»)</strong> – это настольная игра самопознания. Возникла она в Индии
+            более 2000 лет назад. В современном варианте ЛИЛА выглядит как обычная настольная <span
+            style="white-space: nowrap">«игра – бродилка»,</span>
+            где каждая клетка игрового поля соответствует внутренним состояниям игрока и реальным ситуациям в жизни.
+          </p>
+
+          <p>
+            Это инструмент для познания своего внутреннего мира, поиска ответов на важные жизненные вопросы,
+            уникальное соединение разговора со своей душой, психологии, древних знаний, мудрости и увлекательной Игры.
+          </p>
+
+          <p>
+            «Лила» - это возможность в легком игровом формате разобраться со своими внутренними ограничениями,
+            встретиться со
+            своими сомнениями и тревогами, увидеть границы своей системы, найти ограничивающие убеждения. Легче их
+            встретить и
+            проработать в игровой обстановке, чем в виде жестких граблей жизни.
+          </p>
+        </div>
+      </div>
+
+      <div *ngIf="!authenticationService.isLoginIn"
+           class="button-group"
+      >
+        <button
+          tuiButton
+          routerLink="/auth"
+        >
+          Вход
+        </button>
+        <button
+          tuiButton
+          [appearance]="'outline'"
+          routerLink="/auth/signup"
+        >
+          Регистрация
+        </button>
+      </div>
+    </div>
+
+    <div class="main-content__scroll-btn text-center">
+      <tui-icon
+        (click)="scrollBtn()"
+        [style.height.px]="40"
+        [style.width.px]="40"
+        icon="@tui.circle-arrow-down"
+      />
+    </div>
+  </section>
+
+  <hr>
+
+  <section class="presentation">
+    <div class="presentation__row">
+      <div>
+        <h2 class="text-center">Личный кабинет</h2>
+        <p>
+          В личном кабинете доступны все игры, которые вы создали или те, в которых принимали участие.
+          Также отображается информация о доступных бесплатных играх.
+        </p>
+        <p>
+          Игропрактикам доступна функция создания игр, для обычных пользователей данная функция отсутствует.
+        </p>
+      </div>
+
+      <figure class="presentation__image">
+        <img src="assets/main-page/lk.png" alt="LK Image">
+      </figure>
+    </div>
+
+    <hr>
+
+    <div class="presentation__row">
+      <div>
+        <figure class="presentation__image">
+          <img src="assets/main-page/fields.png" alt="Fields Image">
+        </figure>
+      </div>
+
+      <div>
+        <h2 class="text-center">Игровые поля</h2>
+        <p>
+          На текущий момент при создании игры доступно несколько полей на выбор, помимо классического, также доступны
+          поля для повседневных игр, не привязанные содержанием к истокам игры.
+        </p>
+
+        <div class="presentation__row-images">
+          <div class="image-item" [style.background-image]="'url(\'assets/game-field/field5.jpg\')'"></div>
+          <div class="image-item" [style.background-image]="'url(\'assets/game-field/field1.jpg\')'"></div>
+          <div class="image-item" [style.background-image]="'url(\'assets/game-field/field2.jpg\')'"></div>
+          <div class="image-item" [style.background-image]="'url(\'assets/game-field/field3.jpg\')'"></div>
+        </div>
+      </div>
+    </div>
+
+    <hr>
+
+    <div class="presentation__row">
+      <div>
+        <h2 class="text-center">Ознакомительное видео</h2>
+        <p>
+          Для создания игры Вы должны иметь личный кабинет игропрактика. Обычные пользователи не могут создавать игры.
+          Для участие в игре необходимо попросить игропрактика направить Вам приглашение в игру.
+          Если еще он не зарегистрирован на площадке, можно поделиться с ним ссылкой =)
+        </p>
+        <p>
+          Если Вы сами хотите проводить игры, пожалуйста, <a tuiLink routerLink="/auth/signup">зарегистрируйтесь</a>
+          на платформе в качестве игропрактика или свяжитесь с нами через
+          <a tuiLink routerLink="/help">форму обратной связи</a> если уже создали обычный личный кабинет
+        </p>
+
+        <tui-notification appearance="info">
+          <div>
+            Данный проект является <b>онлайн адаптацией игры "ЛИЛА"</b> для игропрактиков трансформационных игр,
+            предоставляющий возможность проведения игр в онлайн формате. Материал предоставляется на условиях
+            <b>«КАК ЕСТЬ»</b>, в том виде, в котором он существует. Если у Вас есть предложения по улучшению или
+            вопросы можно связаться с нами через форму обратной связи на странице
+            <a tuiLink routerLink="/help">«Помощь»</a>
+          </div>
+        </tui-notification>
+      </div>
+
+      <video class="presentation__video" preload="auto" controls controlsList="nodownload"
+             poster='assets/preview.svg'>
+        <source src="assets/main-page/video/GameLeelaPresentation.webm" type="video/webm">
+        Your browser does not support the video tag.
+      </video>
+    </div>
+  </section>
+
+  <hr>
+
+</ng-container>

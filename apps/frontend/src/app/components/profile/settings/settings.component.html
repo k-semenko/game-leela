@@ -1,0 +1,189 @@
+<ng-container>
+  <h1 class="text-center">Настройки профиля</h1>
+  <div class="tui-row">
+    <div class="settings-container">
+      <section>
+        <h2>Обновление данных профиля</h2>
+        <form
+          (ngSubmit)="onSubmit()"
+          [formGroup]="updateProfileForm"
+          id="updateProfileForm"
+        >
+          <div tuiGroup>
+            <div>
+              <tui-input
+                formControlName="firstName"
+                class="tui-group__inherit-item"
+              >
+                Имя
+                <input
+                  placeholder="Введите имя"
+                  tuiTextfieldLegacy
+                />
+              </tui-input>
+              <tui-error
+                [error]="[] | tuiFieldError | async"
+                formControlName="firstName"
+              ></tui-error>
+            </div>
+            <div>
+              <tui-input
+                formControlName="lastName"
+                class="tui-group__inherit-item"
+              >
+                Фамилия
+                <input
+                  placeholder="Введите фамилию"
+                  tuiTextfieldLegacy
+                />
+              </tui-input>
+              <tui-error
+                [error]="[] | tuiFieldError | async"
+                formControlName="lastName"
+              ></tui-error>
+            </div>
+          </div>
+          <div class="tui-form__row">
+            <tui-input formControlName="email">
+              Email
+              <input
+                placeholder="Введите email"
+                tuiTextfieldLegacy
+              />
+            </tui-input>
+            <tui-error
+              [error]="[] | tuiFieldError | async"
+              formControlName="email"
+            ></tui-error>
+          </div>
+
+          <div class="tui-form__row text-center">
+            <button
+              appearance="positive"
+              tuiButton
+              [size]="'m'"
+              type="submit"
+            >
+              Сохранить
+            </button>
+          </div>
+        </form>
+      </section>
+
+      <hr>
+
+      <section>
+        <h2>Изменение пароля</h2>
+
+        <form
+          (ngSubmit)="onSubmitChangePass()"
+          [formGroup]="changePassForm"
+        >
+          <div class="tui-form__row">
+            <tui-input-password
+              formControlName="oldPassword"
+            >
+              Текущий пароль
+              <span class="tui-required"></span>
+            </tui-input-password>
+
+            <tui-error
+              [error]="[] | tuiFieldError | async"
+              formControlName="oldPassword"
+            ></tui-error>
+          </div>
+
+          <div class="tui-form__row">
+            <tui-input-password
+              formControlName="password"
+            >
+              Новый пароль
+              <span class="tui-required"></span>
+            </tui-input-password>
+
+            <tui-error
+              [error]="[] | tuiFieldError | async"
+              formControlName="password"
+            ></tui-error>
+          </div>
+
+          <div class="tui-form__row">
+            <tui-input-password
+              formControlName="confirmPassword"
+            >
+              Подтвердите пароль
+              <span class="tui-required"></span>
+            </tui-input-password>
+
+            <tui-error
+              [error]="[] | tuiFieldError | async"
+              formControlName="confirmPassword"
+            ></tui-error>
+          </div>
+
+          <div class="tui-form__row form-buttons">
+            <button
+              appearance="positive"
+              tuiButton
+              [size]="'m'"
+              type="submit"
+            >
+              Изменить
+            </button>
+
+            <button
+              appearance="neutral"
+              tuiButton
+              [size]="'m'"
+              type="reset"
+            >
+              Очистить
+            </button>
+          </div>
+        </form>
+      </section>
+
+      <hr>
+
+      <section>
+        <h2>Нотификация Телеграм</h2>
+        <ng-template [ngIf]="noTgConnect | async" [ngIfElse]="tgConnected">
+          <p>
+            Вы можете получать напоминания о предстоящих играх, уведомления и полезные материалы в Телеграм!
+            <br>Для этого необходимо пройти авторизацию, нажав на кнопку ниже
+          </p>
+          <div id="tgConnection">
+            <div id="script" style="display: none"></div>
+          </div>
+        </ng-template>
+
+        <ng-template #tgConnected>
+          <tui-notification class="tui-space_bottom-2" appearance="positive">
+            <div tuiTitle>
+              У Вас подключены уведомления через бот в Телеграм.
+              <div tuiSubtitle>
+                Для отключения данной функции нажмите <a tuiLink (click)="telegramDeleteRel()">сюда</a>.
+              </div>
+            </div>
+          </tui-notification>
+        </ng-template>
+      </section>
+
+      <hr>
+
+      <section>
+        <h2>Удаление профиля</h2>
+        <p>
+          При удалении профиля, все данные, игры и доступ к личному кабинету будут безвозвратно утеряны!
+        </p>
+
+        <a tuiLink
+           [style.color]="'var(--tui-text-negative)'"
+           (click)="deleteProfile()"
+        >
+          Удалить профиль
+        </a>
+      </section>
+    </div>
+  </div>
+</ng-container>

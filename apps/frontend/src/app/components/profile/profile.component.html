@@ -1,0 +1,150 @@
+<ng-container>
+  <h1>
+    {{ user?.username }}
+    <tui-badge
+      size="m"
+      appearance="positive"
+      [routerLink]="authenticationService.isAdmin() ? '/admin' : '/profile'"
+    >{{ user?.role }}
+    </tui-badge>
+  </h1>
+
+  <tui-notification
+    *ngIf="!user?.firstName || !user?.lastName || !user?.email"
+    appearance="warning"
+    class="tui-space_bottom-4"
+  >
+    <div tuiSubtitle>
+      Для предоставления возможности <strong>восстановления пароля</strong>, получения информации о новостях проекта,
+      получения описания игр и
+      идентификации в играх, необходимо <a tuiLink routerLink="/profile/settings">заполнить данные профиля</a>
+    </div>
+  </tui-notification>
+
+  <div class="actions">
+    <action-button
+      *ngIf="authenticationService.isAdminOrCurator()"
+      description="Запланировать новую игру"
+      [header]="'Создать игру'"
+      [icon]="'@tui.plus'"
+      [type]="'positive'"
+      [hideText]="false"
+      (click)="createGame()"
+      id="createGameBtn"
+    ></action-button>
+
+    <action-button
+      *ngFor="let item of actionsButtons"
+      [description]="item.description"
+      [header]="item.header"
+      [icon]="item.icon"
+      [routerLink]="item.routerLink"
+      [type]="item.type ?? 'neutral'"
+      [hideText]="item.hideText"
+      id="connectGameBtn"
+    ></action-button>
+  </div>
+
+  <section
+    *ngIf="authenticationService.isAdminOrCurator()"
+    class="game-statistic"
+  >
+    <tui-arc-chart
+      class="{{chartClass | async}}"
+      size="xl"
+      [max]="15"
+      [minLabel]="''"
+      [maxLabel]="''"
+      [value]="[user?.freeGames === 0 ? 15 : user?.freeGames ?? 0]"
+      [(activeItemIndex)]="activeItemIndex"
+    >
+      <div>Бесплатные игры</div>
+      <div class="game-statistic__number">
+        {{ user?.freeGames ?? 0 }}
+      </div>
+      <a
+        class="game-statistic__more"
+        tuiLink
+        tuiHintAppearance="dark"
+        [tuiHintShowDelay]="150"
+        [tuiHint]="gameHint"
+
+      >
+        ПОДРОБНЕЕ
+      </a>
+    </tui-arc-chart>
+
+    <div class="game-statistic__info">
+      <h2 class="text-center">Бесплатные игры</h2>
+      <ng-container *ngTemplateOutlet="gameHint"></ng-container>
+    </div>
+
+    <ng-template #gameHint>
+      <p>
+        Для ознакомлениям с функциями приложения и знакомства с механикой игры
+        при регистрации предоставляется <strong>бесплатно 5 игр</strong>.
+        После исчерпания лимита созданных игр, можно приобрести дополнительные игры.
+      </p>
+      <p>
+        Цены доступны для ознакомления на странице <a tuiLink routerLink="/prices">тарифов</a>
+      </p>
+
+      <div class="game-statistic__buttons">
+        <button
+          tuiButton
+          id="payGamesProfileBtn"
+          tuiTheme="light"
+          appearance="outline-grayscale"
+          routerLink="/profile/pay-games"
+          size="m"
+        >
+          <img
+            [style.width.rem]="2"
+            [style.height.rem]="2"
+            [src]="'@tui.mastercard' | tuiIcon"
+            alt="card img"
+          />
+          Купить игры
+        </button>
+        <button
+          tuiButton
+          appearance="info"
+          (click)="showPaymentsDialog(payments)"
+          size="m"
+        >
+          История платежей
+        </button>
+      </div>
+    </ng-template>
+  </section>
+
+  <games-carousel
+    *ngIf="authenticationService.isAdminOrCurator()"
+    [games]="gamesData.my.games"
+    [title]="'Мои игры'"
+    [notifyText]="'Вы не создали ни одной игры'"
+  ></games-carousel>
+
+  <games-carousel
+    [games]="gamesData.withMe.games"
+    [title]="'Был участником'"
+    [notifyText]="'Вы не принимали участия ни в одной игре.'"
+  ></games-carousel>
+</ng-container>
+
+<ng-template #payments>
+  <tui-scrollbar class="scrollbar">
+    <tui-notification *ngIf="user?.payments?.length === 0">
+      Вы не совершали ни одного платежа.
+    </tui-notification>
+
+    <div *ngFor="let pay of user?.payments">
+      <p>
+        <b>ID платежа: </b> {{ pay.orderId }}
+        <br><b>Статус: </b>{{ getPayStatus(pay.status) }}
+        <br><b>Дата создания: </b> {{ formattedDate('DD.MM.yyyy hh:mm', pay.createdAt) }}
+      </p>
+      <hr>
+    </div>
+  </tui-scrollbar>
+</ng-template>

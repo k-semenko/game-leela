@@ -1,0 +1,104 @@
+<ng-container>
+  <h1 class="text-center">Создание новой игры</h1>
+
+  <tui-loader [inheritColor]="true" [showLoader]="loader" [size]="'xxl'"></tui-loader>
+
+  <div class="tui-row" *ngIf="!loader">
+    <div class="tui-col_6 tui-col_md-12 p-1">
+      <div [style.background-image]="fieldPreview"
+           class="game-field-preview">
+      </div>
+    </div>
+
+    <div class="tui-col_6 tui-col_md-12 p-1">
+      <form (ngSubmit)="onSubmit()" [formGroup]="newGameForm" id="newGameForm">
+        <div class="tui-form__row">
+          <tui-input
+            tuiHint="Введите название игры"
+            formControlName="gameName"
+          >
+            Название игры
+            <input
+              placeholder="Введите название игры"
+              tuiTextfieldLegacy
+            />
+          </tui-input>
+          <tui-error
+            [error]="[] | tuiFieldError | async"
+            formControlName="gameName"
+          ></tui-error>
+        </div>
+
+        <div class="tui-form__row">
+          <tui-input
+            tuiHint="Введите код доступа к игре"
+            formControlName="code"
+          >
+            Код доступа
+            <input
+              placeholder="Введите код доступа"
+              tuiTextfieldLegacy
+            />
+          </tui-input>
+          <tui-error
+            [error]="[] | tuiFieldError | async"
+            formControlName="code"
+          ></tui-error>
+        </div>
+
+        <div class="tui-form__row">
+          <div
+            tuiGroup
+            [collapsed]="true"
+            orientation="vertical"
+            class="vertical-group"
+          >
+            <label
+              tuiBlock
+              *ngFor="let data of gameFields"
+              (click)="getFieldPreview(data.id)"
+            >
+              <input
+                tuiRadio size="m" type="radio"
+                formControlName="gameField"
+                [value]="data.id"
+              />
+
+              <span tuiTitle>{{ data.title }}
+                <span tuiSubtitle>{{ data.description }}</span>
+              </span>
+            </label>
+          </div>
+        </div>
+
+        <div class="tui-form__row">
+          <label tuiLabel>
+            <input
+              size="m"
+              tuiCheckbox
+              type="checkbox"
+              formControlName="alsoPlay"
+            />
+            <span tuiTitle>
+            Активный участник
+            <span tuiSubtitle>
+              При выставлении этого чекбокса Вы добавляетесь в игру как участник.
+              <br>При этом имеете возможность управлять игровым процессом в качестве игропрактика.
+            </span>
+          </span>
+          </label>
+        </div>
+
+        <div class="tui-form__row text-center">
+          <button
+            appearance="secondary"
+            tuiButton
+            type="submit"
+          >
+            Создать игру
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</ng-container>

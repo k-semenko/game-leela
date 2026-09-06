@@ -1,0 +1,97 @@
+<ng-container>
+  <div class="form-container">
+    <tui-loader [showLoader]="showLoader" [inheritColor]="true" [size]="'xl'" [overlay]="true">
+      <h1 class="text-center">Регистрация</h1>
+      <form
+        (ngSubmit)="onSubmit()"
+        [formGroup]="signupForm"
+        class="signup-form"
+        id="signupForm"
+      >
+        <div class="tui-form__row">
+          <tui-input
+            [tuiHintContent]="'Имя пользователя (на английском). Необходимо для входа в систему'"
+            formControlName="username"
+          >
+            Логин
+            <input
+              placeholder="Введите логин"
+              tuiTextfieldLegacy
+            />
+          </tui-input>
+          <tui-error
+            [error]="[] | tuiFieldError | async"
+            formControlName="username"
+          ></tui-error>
+        </div>
+
+        <div class="tui-form__row">
+          <tui-input-password
+            formControlName="password"
+            tuiHintAppearance="onDark"
+            tuiHintContent
+            tuiHintDirection="right"
+          >
+            Пароль
+            <span class="tui-required"></span>
+          </tui-input-password>
+
+          <tui-error
+            [error]="[] | tuiFieldError | async"
+            formControlName="password"
+          ></tui-error>
+        </div>
+        <div class="tui-form__row">
+          <tui-input-password
+            formControlName="confirmPassword"
+            tuiHintAppearance="onDark"
+            tuiHintContent
+            tuiHintDirection="right"
+          >
+            Подтвердите пароль
+            <span class="tui-required"></span>
+          </tui-input-password>
+
+          <tui-error
+            [error]="[] | tuiFieldError | async"
+            formControlName="confirmPassword"
+          ></tui-error>
+        </div>
+
+        <div class="tui-form__row">
+          <label>
+            <input
+              tuiCheckbox
+              type="checkbox"
+              formControlName="isCurator"
+              size="m"
+            />
+            Я игропрактик трансформационных игр
+            <div class="checkbox-text">
+              При выставлении предоставляется демо-доступ к созданию игр и возможность дальнейшей работы на
+              платформе в качестве игропрактика
+            </div>
+          </label>
+        </div>
+
+        <div class="tui-form__row">
+          <tui-notification>
+            Нажимая на кнопку <b>"Регистрация"</b> вы соглашаетесь с <a href="/policy" target="_blank" tuiLink>политикой
+            конфиденциальности</a> и <a href="/offer" target="_blank" tuiLink>пользовательским соглашением</a>
+          </tui-notification>
+        </div>
+
+        <div class="tui-form__row text-center">
+          <button
+            tuiButton
+            [size]="'m'"
+            type="submit"
+            appearance="primary"
+          >
+            Регистрация
+          </button>
+        </div>
+      </form>
+    </tui-loader>
+  </div>
+</ng-container>

@@ -1,0 +1,53 @@
+<ng-container>
+  <h1 class="text-center">Присоединиться к игре</h1>
+  <div class="tui-row">
+    <div class="connect-game-container">
+      <form (ngSubmit)="onSubmit()" [formGroup]="gameForm" id="connectGameForm">
+        <div class="tui-form__row">
+          <tui-input
+            [tuiHint]="'Введите id игры, полученный у игропрактика'"
+            formControlName="gameId"
+          >
+            ID игры
+            <input
+              placeholder="Введите id игры"
+              tuiTextfieldLegacy
+            />
+          </tui-input>
+          <tui-error
+            [error]="[] | tuiFieldError | async"
+            formControlName="gameId"
+          ></tui-error>
+        </div>
+
+        <div class="tui-form__row">
+          <tui-input
+            [tuiHint]="'Введите код доступа, полученный у игропрактика'"
+            formControlName="code"
+          >
+            Код доступа
+            <input
+              placeholder="Введите код доступа"
+              tuiTextfieldLegacy
+            />
+          </tui-input>
+          <tui-error
+            [error]="[] | tuiFieldError | async"
+            formControlName="code"
+          ></tui-error>
+        </div>
+
+        <div class="tui-form__row">
+          <button
+            appearance="positive"
+            class="m-auto w-100"
+            tuiButton
+            type="submit"
+          >
+            Присоединиться
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</ng-container>

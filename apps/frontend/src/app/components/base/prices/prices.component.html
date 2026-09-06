@@ -1,0 +1,46 @@
+<ng-container>
+  <h1 class="text-center">Цены и тарифы</h1>
+
+  <section>
+    <h2>Демоверсия</h2>
+
+    <p>
+      При регистрации в качестве игропрактика, каждому пользователю начисляется <b>5 бесплатных игр</b>.
+      Игры не сгорают и доступны на протяжении всего времени использования личного кабинета.
+    </p>
+    <p>
+      Бесплатные игры предназначены для ознакомления с продуктом и тестирования его функциональности на соответствия
+      ожиданиям.
+      Дальнейший доступ к созданию игр осуществляется в соответствии с указанными ниже тарифами.
+    </p>
+
+    <p>
+      Процедура оплаты и возврата происходят в соответствии с
+      <a tuiLink routerLink="/payment-rules">Правилами оплаты и возврата</a>.
+    </p>
+  </section>
+
+  <section>
+    <h2>Доступные тарифы</h2>
+
+    <div class="tariffs">
+      <label
+        *ngFor="let tariff of tariffs; index as i"
+        tuiBlock class="tariffs__item"
+      >
+        <div tuiCell>
+          <div tuiTitle>
+            {{ tariff.title }}
+            <div tuiSubtitle>
+              {{ tariff.description }}
+            </div>
+            <div class="tariffs__price">
+              {{ tariff.price | tuiAmount: 'RUB' : 'right' | async }}
+            </div>
+          </div>
+        </div>
+        <tui-avatar [src]="tariffsIcons[i] | tuiIcon" size="xl" [round]="false" [appearance]="tariffsTypes[i]" />
+      </label>
+    </div>
+  </section>
+</ng-container>

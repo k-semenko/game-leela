@@ -1,0 +1,95 @@
+.scrollbar
+  height: 300px
+
+.actions
+  display: flex
+  flex-wrap: wrap
+  justify-content: center
+  margin-bottom: 2rem
+  gap: 1rem
+
+  & action-button
+    justify-content: center
+    width: 280px
+
+.game-statistic
+  display: flex
+  align-items: center
+  justify-content: space-around
+  margin-bottom: 2rem
+
+  &__info
+    text-align: justify
+    margin-bottom: 1rem
+    max-width: 600px
+    min-width: 300px
+
+  &__more
+    display: none
+
+  &__number
+    font-size: xxx-large
+    font-weight: bold
+    margin: 1rem 0
+
+  &__buttons
+    display: flex
+    flex-wrap: wrap
+    justify-content: center
+    gap: 1rem
+
+
+tui-arc-chart.warning
+  --tui-chart-0: var(--tui-chart-categorical-07)
+  --tui-chart-categorical-00: var(--tui-chart-categorical-07)
+
+tui-arc-chart.error
+  --tui-chart-0: var(--tui-chart-categorical-06)
+  --tui-chart-categorical-00: var(--tui-chart-categorical-06)
+
+tui-arc-chart
+  --tui-chart-categorical-00: var(--tui-chart-categorical-11)
+  --tui-chart-categorical-01: var(--tui-chart-categorical-09)
+  --tui-chart-categorical-02: var(--tui-chart-categorical-08)
+  --tui-chart-categorical-03: var(--tui-chart-categorical-06)
+  --tui-chart-0: var(--tui-chart-categorical-11)
+  --tui-chart-1: var(--tui-chart-categorical-09)
+  --tui-chart-2: var(--tui-chart-categorical-08)
+  --tui-chart-3: var(--tui-chart-categorical-06)
+
+@media screen and (max-width: 1399px)
+  .actions action-button
+    width: 400px
+
+  .game-statistic
+    width: 800px
+    margin: auto
+    gap: 1rem
+
+@media screen and (max-width: 1024px)
+  .actions action-button
+    width: 300px
+
+  .game-statistic
+    width: 600px
+
+@media screen and (max-width: 767px)
+  .actions action-button
+    width: max-content
+
+    &:first-of-type
+      width: calc((90px * 3) + 2rem) !important
+
+    .actions > action-button a
+      width: 100% !important
+
+  .game-statistic
+    flex-direction: column
+    width: 100%
+
+    &__info
+      display: none
+
+    &__more
+      display: block
+      text-align: center

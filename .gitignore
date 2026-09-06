@@ -1,0 +1,14 @@
+**/.git.upstream.bak/
+**/logs/
+*.log
+.DS_Store
+.angular/
+.env
+.env.local
+apps/*/.git.upstream.bak/
+apps/*/dist/
+coverage/
+dist/
+node_modules/
+uploads/
+.env.bak

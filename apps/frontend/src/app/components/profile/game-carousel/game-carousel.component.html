@@ -1,0 +1,61 @@
+<ng-container (window:resize)="onResize($event)">
+  <div tuiHeader class="game-carousel__title">
+    <h2>
+      {{ title }}
+      <tui-chip>{{ games.length }}</tui-chip>
+    </h2>
+  </div>
+
+  <tui-notification *ngIf="games.length === 0">
+    {{ notifyText }}
+  </tui-notification>
+
+  <tui-carousel
+    [(index)]="index"
+    [draggable]="true"
+    [itemsCount]="itemsCount"
+    class="game-carousel"
+  >
+    <ng-container *ngFor="let item of games">
+      <div
+        *tuiItem
+        tuiCardLarge
+        tuiSurface="outline-grayscale"
+        class="game-carousel__item"
+      >
+        <header tuiHeader>
+          <div tuiTitle>{{ item.name }}</div>
+        </header>
+
+        <div tuiCell>
+          <tui-avatar [src]="this.getFieldHref(item.field.url)" [round]="false" />
+          <div tuiTitle>
+            <tui-badge tuiStatus size="m" appearance="positive" *ngIf="!item.gameEnd">Игра активна</tui-badge>
+            <tui-badge tuiStatus size="m" appearance="negative" *ngIf="item.gameEnd">Игра завершена</tui-badge>
+
+            <div tuiSubtitle>
+              <small>{{ formattedDate(null, item.createdAt) }}</small>
+            </div>
+
+          </div>
+        </div>
+        <button
+          size="s"
+          appearance="outline-grayscale"
+          routerLink="/game/{{item.id}}"
+          tuiButton
+        >
+          Открыть
+        </button>
+      </div>
+    </ng-container>
+
+  </tui-carousel>
+  <tui-pagination
+    (indexChange)="onIndex($event)"
+    [index]="rounded()"
+    [length]="pages()"
+    class="tui-space_top-4"
+    size="s"
+  ></tui-pagination>
+</ng-container>

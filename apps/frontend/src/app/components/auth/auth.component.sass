@@ -1,0 +1,16 @@
+.auth-form
+  margin: 0 auto
+  width: 450px
+
+.button-group.tui-group_rounded.tui-group_orientation_horizontal
+  & > button:first-child
+    border-top-left-radius: 2rem
+    border-bottom-left-radius: 2rem
+
+  & > button:last-child
+    border-top-right-radius: 2rem
+    border-bottom-right-radius: 2rem
+
+@media screen and (max-width: 768px)
+  .auth-form
+    width: 320px

@@ -1,0 +1,61 @@
+<style>
+  .wrapper {
+    padding: 24px;
+    background-color: #ededed;
+  }
+
+  .main-block {
+    background-color: white;
+    margin: 0 auto;
+    max-width: 600px;
+    padding: 24px;
+    border-radius: 24px;
+  }
+
+  .button {
+    background-color: #526ed3;
+    border-radius: 24px;
+    color: white;
+    font-weight: bold;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    width: 150px;
+    text-align: center;
+    margin: 0 auto;
+    white-space: nowrap;
+  }
+
+</style>
+
+<div class="wrapper">
+  <div class="main-block">
+    <h1 style="text-align: center">Сброс пароля</h1>
+    <h3>Добрый день, {{username}}.</h3>
+    <hr>
+    <p>
+      Был выполнен запрос на восстановления пароля для сайта <a href="{{siteUrl}}">{{siteUrl}}</a>
+    </p>
+    <p>
+      <strong>Если вы этого не делали</strong>, просто проигнорируйте данное письмо, иначе нажмите на кнопку ниже
+      для восстановления
+      пароля
+    </p>
+
+    <a href="{{resetLink}}" class="button">
+      Сбросить пароль
+    </a>
+
+    <p>
+      <strong>Спасибо,</strong>
+      <br><i>Команда платформы "Game Leela"</i>
+    </p>
+
+    <hr>
+    <small>
+      Если кнопка не работает, скопируйте URL вручную и вставьте в адресную строку браузера: {{resetLink}}
+      <br><br>При возникновении сложностей с восстановлением пароля, Вы можете обратиться в
+      <a href="{{siteUrl}}help" style="text-decoration: underline; color: #526ed3;">службу поддержки</a>
+    </small>
+  </div>
+</div>

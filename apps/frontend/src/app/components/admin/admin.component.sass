@@ -1,0 +1,25 @@
+.admin
+  display: flex
+  gap: 1rem
+
+  &__nav
+    width: max-content
+    padding: 1rem
+    & a
+      white-space: nowrap
+
+  &__content
+    flex-grow: 1
+    padding: 1rem
+    width: min-content
+
+    & admin-statistic
+      flex-grow: 1
+
+@media screen and (max-width: 1024px)
+  .admin
+    flex-direction: column
+    &__nav
+      width: 100%
+      padding: 0.25rem
+

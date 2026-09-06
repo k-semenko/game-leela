@@ -1,0 +1,77 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: ${COMPOSE_PROJECT_NAME:-game-leela}_postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-leela}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-leela}
+      POSTGRES_DB: ${POSTGRES_DB:-leela}
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+    volumes:
+      - leela-pg:/var/lib/postgresql/data
+      - ./infra/sql:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-leela} -d ${POSTGRES_DB:-leela}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  bff:
+    build:
+      context: ./apps/bff
+      dockerfile: Dockerfile
+      target: ${TARGET_BFF:-run}
+    container_name: ${COMPOSE_PROJECT_NAME:-game-leela}_bff
+    restart: on-failure
+    env_file: .env
+    environment:
+      POSTGRES_HOST: postgres
+      APP_PORT: ${APP_PORT:-3001}
+      WS_PORT: ${WS_PORT:-3002}
+      TG_ORIGIN: ${TG_ORIGIN:-http://bot:4000/tg}
+      ORIGIN: ${ORIGIN:-http://localhost:4200/}
+      WS_ORIGIN: ${WS_ORIGIN:-http://localhost:4200/}
+    ports:
+      - "${APP_PORT:-3001}:${APP_PORT:-3001}"
+      - "${WS_PORT:-3002}:${WS_PORT:-3002}"
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  bot:
+    profiles: ["bot"]
+    build:
+      context: ./apps/bot
+      dockerfile: Dockerfile
+      target: ${TARGET_BOT:-run}
+    container_name: ${COMPOSE_PROJECT_NAME:-game-leela}_bot
+    restart: on-failure
+    env_file: .env
+    environment:
+      POSTGRES_HOST: postgres
+      APP_PORT: ${TG_PORT:-4000}
+      TG_ORIGIN: ${TG_ORIGIN:-http://bot:4000/tg}
+    ports:
+      - "${TG_PORT:-4000}:${TG_PORT:-4000}"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      bff:
+        condition: service_started
+
+  frontend:
+    build:
+      context: ./apps/frontend
+      dockerfile: Dockerfile
+      target: ${TARGET_FRONT:-run}
+    container_name: ${COMPOSE_PROJECT_NAME:-game-leela}_frontend
+    restart: on-failure
+    ports:
+      - "${FRONT_PORT:-4200}:80"
+    depends_on:
+      - bff
+
+volumes:
+  leela-pg:

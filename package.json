@@ -1,0 +1,23 @@
+{
+  "name": "game-leela",
+  "private": true,
+  "version": "0.0.0",
+  "description": "Game Leela — psychological board game platform (web + BFF + Telegram bot)",
+  "scripts": {
+    "ci:deps": "npm --prefix apps/bff ci && npm --prefix apps/bot ci && npm --prefix apps/frontend ci",
+    "build": "npm run build:bff && npm run build:bot && npm run build:frontend",
+    "build:bff": "npm --prefix apps/bff run build",
+    "build:bot": "npm --prefix apps/bot run build",
+    "build:frontend": "npm --prefix apps/frontend run build",
+    "start:bff": "npm --prefix apps/bff run start:dev",
+    "start:bot": "npm --prefix apps/bot run start:dev",
+    "start:frontend": "npm --prefix apps/frontend run start",
+    "lint:bff": "npm --prefix apps/bff run lint",
+    "lint:bot": "npm --prefix apps/bot run lint",
+    "seed": "bash scripts/seed-local.sh"
+  },
+  "license": "MIT",
+  "engines": {
+    "node": ">=20"
+  }
+}

@@ -1,0 +1,84 @@
+<ng-container>
+  <tui-notification
+    *ngIf="games.length === 0"
+  >
+    Не найдено ни одной игры.
+    <br>
+    <a href="/game/create">Начать новую?</a>
+  </tui-notification>
+
+  <tui-table-pagination
+    (paginationChange)="changePage($event)"
+    *ngIf="games?.length !== 0"
+    [page]="currentPage"
+    [size]="pageSize"
+    [total]="totalItems"
+  ></tui-table-pagination>
+
+  <tui-scrollbar>
+    <table
+      *ngIf="games?.length !== 0"
+      [columns]="columns"
+      class="table all-games"
+      tuiTable>
+      <thead>
+      <tr tuiThGroup>
+        <th *ngFor="let col of columns" tuiTh>
+          {{ col }}
+        </th>
+      </tr>
+      </thead>
+      <tbody
+        [data]="games"
+        tuiTbody
+      >
+      <tr *ngFor="let game of games"
+          [attr.data-id]="game.id"
+          tuiTr
+      >
+        <td *tuiCell="'ID'" tuiTd>
+          {{ game.id }}
+        </td>
+        <td *tuiCell="'Название игры'" tuiTd>
+          {{ game.name }}
+        </td>
+        <td *tuiCell="'Игроки'" tuiTd>
+          {{ game.players.length }}
+        </td>
+        <td *tuiCell="'Владелец'" tuiTd>
+          {{ game.user?.username }}
+        </td>
+        <td *tuiCell="'Дата создания'" tuiTd>
+          {{ formattedDate('DD.MM.YYYY HH:mm', game.createdAt) }}
+        </td>
+        <td *tuiCell="'Статус'" tuiTd>
+          <tui-badge tuiStatus [appearance]="game.gameEnd ? 'error' : 'success'">
+            {{ game.gameEnd ? 'Закрыта' : 'Активна' }}
+          </tui-badge>
+        </td>
+        <td *tuiCell="'Действия'" tuiTd>
+          <a
+            appearance="icon"
+            href="/game/{{ game.id }}"
+            iconStart="@tui.play"
+            size="s"
+            title="Присоединиться"
+            tuiIconButton
+            type="button"
+          ></a>
+          <button
+            (click)="deleteGame(game.id!)"
+            *ngIf="canDeleteGame(game.user?.id!)"
+            appearance="icon"
+            iconStart="@tui.trash-2"
+            size="s"
+            title="Удалить игру"
+            tuiIconButton
+            type="button"
+          ></button>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </tui-scrollbar>
+</ng-container>

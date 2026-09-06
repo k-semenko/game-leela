@@ -1,0 +1,15 @@
+<ng-container>
+  <tui-breadcrumbs [size]="'l'">
+    <ng-container *ngFor="let item of items">
+      <a
+        *tuiItem
+        tuiLink
+        [routerLink]="item.routerLink"
+      >
+        {{ item.caption }}
+      </a>
+    </ng-container>
+  </tui-breadcrumbs>
+
+  <div id="swagger-ui"></div>
+</ng-container>

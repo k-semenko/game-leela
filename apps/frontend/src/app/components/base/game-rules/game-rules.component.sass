@@ -1,0 +1,57 @@
+.start, .field, .end, .final
+  text-align: justify
+
+.start
+  display: flex
+  gap: 1rem
+  flex-direction: row-reverse
+  justify-content: center
+  align-items: center
+
+  &__logo
+    min-width: 400px
+    height: max-content
+    margin-bottom: 1rem
+
+  &__content
+    text-align: justify
+
+.field
+  display: flex
+  gap: 1rem
+  align-items: center
+  justify-content: center
+
+  &__figure
+    padding: 1rem
+    & > div
+      display: flex
+      flex-direction: column
+      justify-content: space-around
+      align-items: center
+      width: 250px
+      height: 250px
+      border: 1px solid black
+      border-radius: 1rem
+
+      & > strong
+        font-size: 7rem
+        line-height: 7.5rem
+
+      & > span
+        font-size: 2rem
+        line-height: 2.25rem
+        font-weight: bold
+
+  &__content
+    text-align: justify
+
+@media screen and (max-width: 1024px)
+  h2
+    text-align: left
+
+  .start__logo
+    display: none
+
+  .field__figure
+    display: none

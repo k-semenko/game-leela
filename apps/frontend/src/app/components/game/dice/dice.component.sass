@@ -1,0 +1,138 @@
+:host
+  display: flex
+  flex-direction: column
+  justify-content: space-between
+  height: 450px
+  gap: 1rem
+
+
+.dice__content
+  display: flex
+  flex-direction: column
+  justify-content: space-between
+  flex-grow: 1
+
+.last-move
+  display: flex
+  justify-content: space-between
+  align-items: center
+  gap: 1rem
+  flex-grow: 1
+
+  &__cell
+    display: flex
+    flex-direction: column
+    border: 1px solid #a1a1a1
+    border-radius: 1rem
+    padding: 0.75rem
+    height: 12rem
+    width: 12rem
+
+    &-number
+      display: flex
+      justify-content: center
+      align-items: center
+      flex-grow: 1
+      font-weight: bold
+      font-size: 60px
+
+    &-title
+      font-weight: bold
+      font-size: large
+      text-align: center
+      word-wrap: break-word
+      hyphens: auto
+
+  &__description
+    flex-grow: 1
+    max-height: 250px
+    width: min-content
+    text-align: justify
+
+    &-content
+      padding-right: 20px
+
+.moves
+  display: flex
+  justify-content: center
+  align-items: center
+  height: 5rem
+  gap: 0.5rem
+
+  &__item
+    display: flex
+    justify-content: center
+    align-items: center
+    border: 1px solid #a1a1a1
+    border-radius: 0.25rem
+    width: 4rem
+    height: 4rem
+    font-weight: bolder
+    font-size: xx-large
+
+.dice
+  display: flex
+  margin: 0 auto
+  padding: 0.5rem
+  width: 10rem
+  height: 10rem
+  border: 1px solid #a1a1a1
+  border-radius: 1rem
+  cursor: pointer
+  transition: 2s all
+
+  &__loader
+    margin: auto
+    align-items: center
+
+  & .pip
+    width: 3rem
+    height: 3rem
+    background: black
+    border-radius: 100%
+
+  &.one
+    justify-content: center
+    align-items: center
+
+  &.two
+    justify-content: space-between
+
+    & .pip:nth-of-type(2)
+      align-self: flex-end
+
+  &.three
+    justify-content: space-between
+
+    & .pip:nth-of-type(2)
+      align-self: center
+
+    & .pip:nth-of-type(3)
+      align-self: flex-end
+
+  &.four
+    justify-content: space-between
+
+    & .column
+      display: flex
+      flex-direction: column
+      justify-content: space-between
+
+  &.fifth
+    justify-content: space-between
+
+    & .column
+      display: flex
+      flex-direction: column
+      justify-content: space-between
+
+      &:nth-of-type(2)
+        align-self: center
+
+  &.six
+    justify-content: space-between
+
+    & .column
+      display: flex
+      flex-direction: column
+      justify-content: space-between

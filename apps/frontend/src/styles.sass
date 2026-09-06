@@ -1,0 +1,78 @@
+//$mobile: screen and (max-width: 767px)
+//$tablet: screen and (max-width: 1024px)
+//$tablet-interval: (min-width: 768px) and (max-width: 1024px)
+//$desktop-m: screen and (max-width: 1399px)
+//$desktop-m-interval: (min-width: 1025px) and (max-width: 1399px)
+//$desktop-lg: screen and (min-width: 1400px)
+
+$header: 73px
+$footer: 89px
+
+html, body, tui-root
+  height: 100%
+  min-width: 350px
+  font: var(--tui-font-text-m)
+
+  & p
+    font: var(--tui-font-text-m)
+
+hr
+  margin: 1rem 0
+
+.form-container
+  display: flex
+  justify-content: center
+  align-items: center
+  flex-direction: column
+  gap: 1rem
+  min-height: calc(100vh - ($header + $footer) - 5rem)
+
+.form-buttons
+  display: flex
+  justify-content: center
+  gap: 1rem
+
+.t-root-content
+  display: flex
+  flex-direction: column
+  height: 100%
+
+.tui-container
+  flex-grow: 1
+  width: 90%
+  max-width: 1200px
+  margin-top: $header
+  padding: 0 1rem 1rem
+
+  &.main-page
+    width: 100%
+    max-width: none
+    padding: 0
+
+.text-center
+  text-align: center
+
+.text-right
+  text-align: right
+
+.d-flex
+  display: flex
+  justify-content: center
+
+.grow-1
+  flex-grow: 1
+
+.gap-1
+  gap: 0.25rem
+
+@media screen and (max-width: 767px)
+  $header: 72px
+  .tui-container
+    margin-top: $header
+
+@media screen and (max-width: 500px)
+  $footer: 161px
+
+  .form-container
+    height: calc(100vh - ($header + $footer) - 5rem)
+

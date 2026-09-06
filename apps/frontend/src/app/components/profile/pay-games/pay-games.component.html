@@ -1,0 +1,70 @@
+<ng-container>
+  <h1 class="text-center">Выбор тарифа</h1>
+  <tui-loader [showLoader]="showLoader" [inheritColor]="true" [size]="'xxl'" [overlay]="true">
+    <form
+      id="payGamesForm"
+      (ngSubmit)="onSubmit()"
+      [formGroup]="payGamesForm"
+    >
+      <div class="tui-form__row tariffs">
+        <label
+          *ngFor="let tariff of tariffs; index as i"
+          tuiBlock
+          class="tariffs__item"
+        >
+          <tui-avatar [src]="tariffsIcons[i] | tuiIcon" size="xl" [round]="false" [appearance]="tariffsTypes[i]" />
+
+          <div tuiCell>
+            <div tuiTitle>
+              {{ tariff.title }}
+              <div tuiSubtitle>
+                {{ tariff.description }}
+              </div>
+              {{ tariff.price | tuiAmount: 'RUB' : 'right' | async }}
+            </div>
+            <input
+              tuiRadio type="radio"
+              [value]="tariff.id"
+              [identityMatcher]="identityMatcher"
+              [formControlName]="'tariffId'"
+            />
+          </div>
+        </label>
+      </div>
+
+      <div class="data-row">
+        <div class="tui-form__row">
+          <tui-input formControlName="email">
+            Email
+            <input
+              placeholder="Введите email"
+              tuiTextfieldLegacy
+            />
+          </tui-input>
+          <tui-error
+            [error]="[] | tuiFieldError | async"
+            formControlName="email"
+          ></tui-error>
+        </div>
+
+        <div class="tui-form__row text-center">
+          <button
+            tuiButton
+            id="payGamesBtn"
+            [size]="'l'"
+            type="submit"
+            appearance="outline-destructive"
+          >
+            <img
+              alt="card img"
+              [src]="'@tui.mastercard' | tuiIcon"
+              [style.height.rem]="2"
+              [style.width.rem]="2"
+            />
+            Купить
+          </button>
+        </div>
+      </div>
+    </form>
+  </tui-loader>
+</ng-container>

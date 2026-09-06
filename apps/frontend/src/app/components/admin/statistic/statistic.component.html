@@ -1,0 +1,29 @@
+<div class="admin-statistic">
+  <statistic-ring-chart
+    (action)="openPage($event)"
+    [actionType]="Pages.FEEDBACK"
+    [title]="'Обратная связь'"
+    [labels]="['Открытые', 'Закрытые']"
+    [values]="feedbackCount"
+    [data]="feedback"
+  ></statistic-ring-chart>
+
+  <statistic-ring-chart
+    (action)="openPage($event)"
+    [actionType]="Pages.ALL_GAMES"
+    [title]="'Игры'"
+    [labels]="['ЗАКРЫТЫЕ', 'АКТИВНЫЕ']"
+    [values]="gamesCountValues"
+    [data]="games"
+  ></statistic-ring-chart>
+
+  <statistic-ring-chart
+    (action)="openPage($event)"
+    [actionType]="Pages.USERS"
+    [title]="'Пользователи'"
+    [labels]="['ADMIN', 'CURATOR', 'USER']"
+    [values]="usersCount"
+    [data]="users"
+  ></statistic-ring-chart>
+
+</div>

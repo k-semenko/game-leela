@@ -1,0 +1,46 @@
+<ng-container>
+  <h1 class="text-center">АДМИНКА</h1>
+  <hr>
+  <section class="admin">
+    <nav tuiTabs *ngIf="!mediaHelper.isTablet()" vertical="left" class="admin__nav" [(activeItemIndex)]="activePage">
+      <a tuiTab *ngFor="let page of PagesNames; let i = index;" (click)="activate(i)">{{ page }}</a>
+      <a tuiTab href="/admin/api" *ngIf="!environment.production">OpenAPI</a>
+    </nav>
+    <nav tuiTabs *ngIf="mediaHelper.isTablet()" class="admin__nav" [(activeItemIndex)]="activePage">
+      <a tuiTab *ngFor="let page of PagesNames; let i = index;" (click)="activate(i)">{{ page }}</a>
+      <a tuiTab href="/admin/api" *ngIf="!environment.production">OpenAPI</a>
+    </nav>
+
+    <div class="admin__content">
+      <admin-statistic
+        *ngIf="activePage === Pages.STATISTIC"
+        (activePage)="activate($event)"
+        [games]="games"
+        [users]="users"
+        [usersCount]="usersCount"
+        [gamesCountValues]="gamesCountValues"
+        [feedback]="feedback"
+        [feedbackCount]="feedbackCount"
+      ></admin-statistic>
+
+      <admin-all-games
+        *ngIf="activePage === Pages.ALL_GAMES"
+        [data]="games"
+      ></admin-all-games>
+
+      <admin-cells
+        *ngIf="activePage === Pages.CELLS"
+      ></admin-cells>
+
+      <admin-users
+        *ngIf="activePage === Pages.USERS"
+        [data]="users"
+      ></admin-users>
+
+      <admin-feedback
+        *ngIf="activePage === Pages.FEEDBACK"
+        [data]="feedback"
+      ></admin-feedback>
+    </div>
+  </section>
+</ng-container>

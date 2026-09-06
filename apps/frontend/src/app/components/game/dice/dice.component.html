@@ -1,0 +1,233 @@
+<div
+  *ngIf="(gameOwnerUser && this.selectedPlayer?.userId != currentUser?.id) || (playerMovesSequence.length === 0 && !showMovesDialog) || dice === 6"
+  class="dice-notifications"
+>
+  <ng-container *ngIf="gameOwnerUser && this.selectedPlayer?.userId != currentUser?.id">
+    <tui-notification appearance="negative" size="l" class="tui-space_bottom-2">
+        <span>
+          Будьте внимательны, это <strong>не ваш ход!</strong>
+          Ход игрока: '<strong>{{ selectedPlayer?.username }}</strong>'
+        </span>
+    </tui-notification>
+  </ng-container>
+
+  <tui-notification
+    *ngIf="playerMovesSequence.length === 0 && !showMovesDialog"
+    appearance="info"
+    size="l"
+    class="tui-space_bottom-2"
+  >
+    Нажмите на изображение кубика для начала хода
+  </tui-notification>
+
+  <tui-notification
+    *ngIf="dice === 6"
+    appearance="positive"
+    size="l"
+  >
+    Выпала шестерка! Вы можете сделать еще один ход
+  </tui-notification>
+</div>
+
+<div class="dice__content">
+  <ng-container
+    *ngIf="!showMovesDialog else state.nextStepAuto ? autoMove : (state.preview || state.sixOnStart ? confirmMove : button)">
+    <tui-loader
+      class="dice__loader"
+      size="xxl"
+      [showLoader]="state.showLoader"
+      [overlay]="true"
+      [inheritColor]="true"
+    >
+      <div (click)="rollTheDice()" class="dice one">
+        <div *ngIf="dice <= 3" class="pip"></div>
+        <div *ngIf="dice == 2 || dice == 3" class="pip"></div>
+        <div *ngIf="dice == 3" class="pip"></div>
+        <div *ngIf="dice > 3" class="column">
+          <span class="pip"></span>
+          <span class="pip"></span>
+          <span *ngIf="dice == 6" class="pip"></span>
+        </div>
+        <div *ngIf="dice == 5" class="column">
+          <span class="pip"></span>
+        </div>
+        <div *ngIf="dice > 3" class="column">
+          <span class="pip"></span>
+          <span class="pip"></span>
+          <span *ngIf="dice == 6" class="pip"></span>
+        </div>
+      </div>
+    </tui-loader>
+
+    <ng-container *ngTemplateOutlet="moves" />
+  </ng-container>
+</div>
+
+<!-- Template for displayed buttons -->
+<ng-template #button>
+  <ng-container *ngIf="lastMove && !state.fieldEnd">
+    <ng-container *ngTemplateOutlet="lastMoveDescription" />
+  </ng-container>
+
+  <ng-container *ngIf="state.fieldEnd">
+    <header tuiHeader="m">
+      <h1 tuiTitle>Превышение длинны поля</h1>
+    </header>
+
+    <tui-notification
+      appearance="negative"
+      size="l"
+      class="text-center w-100 tui-space_bottom-2"
+    >
+      Вы не можете сделать ход с текущей клетки, превышена длинна поля
+    </tui-notification>
+  </ng-container>
+
+  <ng-container *ngTemplateOutlet="moves" />
+
+  <tui-loader
+    *ngIf="gameOwnerUser"
+    class="text-center"
+    [showLoader]="state.showLoader"
+    size="m"
+    [overlay]="true"
+    [inheritColor]="true"
+  >
+    <button
+      [size]="'m'"
+      (click)="move()"
+      tuiButton
+      appearance="flat"
+      type="button"
+    >
+      Следующий ход
+    </button>
+  </tui-loader>
+</ng-template>
+
+<!-- Template for confirm move -->
+<ng-template #confirmMove>
+  <ng-container />
+  <ng-container *ngIf="lastMove && state.exitDialog && !state.fieldEnd && !state.sixOnStart">
+    <ng-container *ngTemplateOutlet="lastMoveDescription" />
+  </ng-container>
+
+  <ng-container *ngIf="!state.exitDialog">
+    <header tuiHeader="m">
+      <h1 tuiTitle>Выпавшие кости</h1>
+    </header>
+
+    <ng-container *ngTemplateOutlet="moves" />
+  </ng-container>
+
+  <ng-container *ngIf="state.fieldEnd && state.exitDialog">
+    <header tuiHeader="m">
+      <h1 tuiTitle>Превышение длинны поля</h1>
+    </header>
+
+    <tui-notification
+      appearance="negative"
+      size="l"
+      class="text-center w-100 tui-space_bottom-2"
+    >
+      Вы не можете сделать ход с текущей клетки, превышена длинна поля
+    </tui-notification>
+  </ng-container>
+
+  <ng-container *ngIf="state.sixOnStart && state.exitDialog">
+    <header tuiHeader="m">
+      <h1 tuiTitle>Начало пути</h1>
+    </header>
+
+    <tui-notification
+      appearance="negative"
+      size="l"
+      class="text-center w-100 tui-space_bottom-2"
+    >
+      Для входа в игру необходимо выкинуть шестерку
+    </tui-notification>
+  </ng-container>
+
+  <tui-notification
+    *ngIf="!gameOwnerUser"
+    appearance="info"
+    size="l"
+    class="text-center w-100 tui-space_bottom-2"
+  >
+    Ждем пока игропрактик подтвердит переход
+  </tui-notification>
+
+  <tui-loader
+    *ngIf="gameOwnerUser"
+    class="text-center"
+    [showLoader]="state.showLoader"
+    [size]="'m'"
+    [overlay]="true"
+    [inheritColor]="true"
+  >
+    <button
+      [size]="'m'"
+      tuiButton
+      type="button"
+      appearance="secondary"
+      (click)="state.exitDialog ? changePlayerEmit() : hidePreview()"
+    >
+      {{ state.exitDialog ? 'Завершить ход' : 'Сделать ход' }}
+    </button>
+  </tui-loader>
+</ng-template>
+
+<!-- Template for AutoMove -->
+<ng-template #autoMove>
+  <ng-container *ngIf="lastMove">
+    <ng-container *ngTemplateOutlet="lastMoveDescription" />
+  </ng-container>
+
+  <tui-notification appearance="warning" size="l" class="tui-space_bottom-2">
+    С этой клетки осуществляется автопереход {{ selectedPlayer?.position }} -> {{ state.nextStepCell }}
+  </tui-notification>
+
+  <tui-loader
+    *ngIf="gameOwnerUser"
+    class="text-center"
+    [showLoader]="state.showLoader"
+    size="m"
+    [overlay]="true"
+    [inheritColor]="true"
+  >
+    <button
+      [size]="'m'"
+      tuiButton
+      type="button"
+      appearance="secondary"
+      (click)="moveAuto()"
+    >
+      Перейти
+    </button>
+  </tui-loader>
+</ng-template>
+
+<ng-template #moves>
+  <div class="moves tui-space_bottom-2 tui-space_top-2">
+    <span
+      *ngFor="let item of playerMovesSequence"
+      class="moves__item"
+    >
+      {{ item }}
+    </span>
+  </div>
+</ng-template>
+
+<ng-template #lastMoveDescription>
+  <div class="last-move">
+    <div class="last-move__cell">
+      <span class="last-move__cell-number">{{ lastMove?.to }}</span>
+      <span class="last-move__cell-title">{{ lastMove?.cellInfo?.title }}</span>
+    </div>
+    <tui-scrollbar class="last-move__description tui-space_bottom-2">
+      <div class="last-move__description-content">
+        {{ lastMove?.cellInfo?.description }}
+      </div>
+    </tui-scrollbar>
+  </div>
+</ng-template>

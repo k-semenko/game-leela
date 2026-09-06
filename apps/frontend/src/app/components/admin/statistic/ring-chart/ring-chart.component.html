@@ -1,0 +1,10 @@
+<ng-container>
+  <tui-ring-chart
+    [value]="values"
+    [(activeItemIndex)]="index"
+    [size]="'l'"
+  >
+    <div>{{ sum }}</div>
+    <a tuiLink (click)="runAction()">{{ label }}</a>
+  </tui-ring-chart>
+</ng-container>
